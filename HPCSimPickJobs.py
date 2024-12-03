@@ -661,7 +661,7 @@ class HPCEnv(gym.Env):
                 else:
                     next_resource_release_time = sys.maxsize
 
-    def moveforward_green_backfilling_delay_action_skip1(self, job, a):
+    def moveforward_green_backfilling_delay_action1(self, job, a):
         self.running_jobs.sort(key=lambda running_job: (running_job.scheduled_time + running_job.request_time))
         release_index=a-1
         release_time = (self.running_jobs[release_index].scheduled_time + self.running_jobs[release_index].request_time)
@@ -791,7 +791,7 @@ class HPCEnv(gym.Env):
                 self.moveforward_for_resources_backfill(job_for_scheduling)
         else:
             if a2 >0 and a2<=delayMaxJobNum:
-                self.moveforward_green_backfilling_delay_action_skip1(job_for_scheduling, a2)
+                self.moveforward_green_backfilling_delay_action1(job_for_scheduling, a2)
             elif a2 > delayMaxJobNum:
                 ToskipTime = delayTimeList[a2 - delayMaxJobNum - 1]
                 self.moveforward_green_backfilling_delay_action2(job_for_scheduling, ToskipTime)
