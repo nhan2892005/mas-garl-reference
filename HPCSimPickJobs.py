@@ -661,7 +661,7 @@ class HPCEnv(gym.Env):
                 else:
                     next_resource_release_time = sys.maxsize
 
-    def moveforward_for_resources_backfill_skip1(self, job,a):
+    def moveforward_green_backfilling_delay_action_skip1(self, job, a):
         self.running_jobs.sort(key=lambda running_job: (running_job.scheduled_time + running_job.request_time))
         release_index=a-1
         release_time = (self.running_jobs[release_index].scheduled_time + self.running_jobs[release_index].request_time)
@@ -680,10 +680,7 @@ class HPCEnv(gym.Env):
 
         while not self.cluster.can_allocated(job) or self.current_timestamp<skipTime:
 
-            if self.backfill == 1:
-                self.job_queue.sort(key=lambda _j: self.backfill_score(_j))
-            else:
-                self.job_queue.sort(key=lambda _j: self.fcfs_score(_j))
+            self.job_queue.sort(key=lambda _j: self.backfill_score(_j))
             job_queue_iter_copy = list(self.job_queue)
 
             for _j in job_queue_iter_copy:
@@ -723,7 +720,7 @@ class HPCEnv(gym.Env):
                 self.running_jobs.pop(0)  # remove the first running job
         self.job_queue.sort(key=lambda _j: self.fcfs_score(_j))
 
-    def moveforward_for_resources_backfill_skip2(self, job, ToskipTime):
+    def moveforward_green_backfilling_delay_action2(self, job, ToskipTime):
         self.running_jobs.sort(key=lambda running_job: (running_job.scheduled_time + running_job.request_time))
         skipTime = ToskipTime+self.current_timestamp
 
@@ -739,10 +736,7 @@ class HPCEnv(gym.Env):
         earliest_start_time = max(earliest_start_time, skipTime)
 
         while not self.cluster.can_allocated(job) or self.current_timestamp<skipTime:
-            if self.backfill == 1:
-                self.job_queue.sort(key=lambda _j: self.backfill_score(_j))
-            else:
-                self.job_queue.sort(key=lambda _j: self.fcfs_score(_j))
+            self.job_queue.sort(key=lambda _j: self.backfill_score(_j))
             job_queue_iter_copy = list(self.job_queue)
 
             for _j in job_queue_iter_copy:
@@ -797,10 +791,10 @@ class HPCEnv(gym.Env):
                 self.moveforward_for_resources_backfill(job_for_scheduling)
         else:
             if a2 >0 and a2<=delayMaxJobNum:
-                self.moveforward_for_resources_backfill_skip1(job_for_scheduling, a2)
+                self.moveforward_green_backfilling_delay_action_skip1(job_for_scheduling, a2)
             elif a2 > delayMaxJobNum:
                 ToskipTime = delayTimeList[a2 - delayMaxJobNum - 1]
-                self.moveforward_for_resources_backfill_skip2(job_for_scheduling, ToskipTime)
+                self.moveforward_green_backfilling_delay_action2(job_for_scheduling, ToskipTime)
 
         # we should be OK to schedule the job now
         assert job_for_scheduling.scheduled_time == -1  # this job should never be scheduled before.
@@ -948,9 +942,11 @@ class HPCEnv(gym.Env):
 
     def step_for_ga(self, a1,a2):
         job_for_scheduling = self.job_queue[a1]
-        if self.backfill:
+        if self.backfill==1:
             done=self.schedule_backfill(job_for_scheduling,a2)
-        else:
+        if self.backfill==2:
+            done=self.schedule_backfill_EASY(job_for_scheduling,a2)
+        elif self.backfill==0:
             if a2 >0 and a2<=delayMaxJobNum:
                 self.skip1(a2)
             elif a2 > delayMaxJobNum:
