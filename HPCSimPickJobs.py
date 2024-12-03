@@ -230,7 +230,6 @@ class HPCEnv(gym.Env):
 
         earliest_start_time = self.current_timestamp
         # sort all running jobs by estimated finish time
-        # self.amendWallTime(self.running_jobs)
         self.running_jobs.sort(key=lambda running_job: (running_job.scheduled_time + running_job.request_time))
         free_processors = self.cluster.free_node * self.cluster.num_procs_per_node
         for running_job in self.running_jobs:
@@ -248,7 +247,6 @@ class HPCEnv(gym.Env):
                 self.job_queue.sort(key=lambda _j: self.fcfs_score(_j))
             job_queue_iter_copy = list(self.job_queue)
 
-            # self.amendWallTime(self.running_jobs)
             self.running_jobs.sort(key=lambda running_job: (running_job.scheduled_time + running_job.request_time))
             free_processors = self.cluster.free_node * self.cluster.num_procs_per_node
             temp_est=earliest_start_time
@@ -351,7 +349,6 @@ class HPCEnv(gym.Env):
         vector = np.zeros((MAX_QUEUE_SIZE + run_win + green_win) * JOB_FEATURES, dtype=float)
         self.job_queue.sort(key=lambda job: self.fcfs_score(job))
 
-        # self.amendWallTime(self.running_jobs)
         self.running_jobs.sort(key=lambda running_job: (running_job.scheduled_time + running_job.request_time))
         currentSlot=self.cluster.PowerStruc.getSlotFromRunning(self.running_jobs,self.current_timestamp)
         self.pairs = [
@@ -665,7 +662,6 @@ class HPCEnv(gym.Env):
                     next_resource_release_time = sys.maxsize
 
     def moveforward_for_resources_backfill_skip1(self, job,a):
-        # self.amendWallTime(self.running_jobs)
         self.running_jobs.sort(key=lambda running_job: (running_job.scheduled_time + running_job.request_time))
         release_index=a-1
         release_time = (self.running_jobs[release_index].scheduled_time + self.running_jobs[release_index].request_time)
@@ -728,7 +724,6 @@ class HPCEnv(gym.Env):
         self.job_queue.sort(key=lambda _j: self.fcfs_score(_j))
 
     def moveforward_for_resources_backfill_skip2(self, job, ToskipTime):
-        # self.amendWallTime(self.running_jobs)
         self.running_jobs.sort(key=lambda running_job: (running_job.scheduled_time + running_job.request_time))
         skipTime = ToskipTime+self.current_timestamp
 
