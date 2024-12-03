@@ -102,10 +102,6 @@ class HPCEnv(gym.Env):
         submit_time = job.submit_time
         return submit_time
 
-    def lpn_score(self, job):
-        power = job.power
-        return power
-
     def lptpn_score(self, job):
         t = -job.power*job.request_time
         return t
