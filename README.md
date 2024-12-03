@@ -12,7 +12,7 @@ pip install -r requirements.txt
 
 ## Set the configuration file
 
-Between training and testing, we need to set the parameters of the experimental environment in the `config.ini` file. Below is an example.
+Between training and testing, we need to set the parameters of the experimental environment in the `configFile/config.ini`. Below is an example.
 
 ```
 [GAS-MARL setting]
@@ -90,7 +90,7 @@ Here are the descriptions for each option:
 
 Here is a complete example of training and testing:
 
-First, set the config.ini file as shown in the "Set the configuration file" section, and then start training GAS-MARL and PPO.
+First, set the `configFile/config.ini` as shown in the "Set the configuration file" section, and then start training GAS-MARL and PPO.
 
 Train GAS-MARL with Green-Backfilling enabled:
 
