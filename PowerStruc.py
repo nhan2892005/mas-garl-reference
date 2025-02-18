@@ -67,6 +67,7 @@ class power_struc():
 
 
     def getSlotFromRunning(self,running_jobs,currentTime):
+        running_jobs.sort(key=lambda running_job: (running_job.scheduled_time + running_job.request_time))
         currentSlot=[]
         if len(running_jobs)==0:
             return currentSlot

@@ -1,4 +1,4 @@
-# green-rl-sched
+# GAS-MARL: Green-Aware job Scheduling algorithm for HPC clusters based on Multi-Action Deep Reinforcement Learning
 
 GAS-MARL is a green-aware job scheduling algorithm for HPC clusters based on multi-action deep reinforcement learning, which optimizes both renewable energy utilization and average bounded slowdown. This repository contains the source code of GAS-MARL and the datasets used.
 
@@ -110,19 +110,6 @@ Test the performance of each algorithm with Green-Backfilling enabled:
 ```
 python compare.py --workload lublin_256 --len 1024 --iter 10  --backfill 1 
 ```
-
-The average bounded slowdown and renewable energy utilization of each algorithm obtained from the run are as follows：
-
-| Algorithm | Average bounded slowdown | Renewable energy utilization |
-| :-------: | :----------------------: | :--------------------------: |
-|   FCFS    |          90.942          |            0.6183            |
-|    F2     |          55.668          |            0.5918            |
-|   LPTPN   |         376.096          |            0.7074            |
-|    GA     |          98.702          |            0.7474            |
-|    PPO    |          56.171          |            0.6791            |
-| GAS-MARL  |          31.000          |            0.8156            |
-
-
 
 ## Output
 
