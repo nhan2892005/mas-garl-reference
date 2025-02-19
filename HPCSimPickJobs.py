@@ -20,11 +20,11 @@ green_win = int(config.get('GAS-MARL setting', 'green_win'))
 delayMaxJobNum = int(config.get('GAS-MARL setting', 'delayMaxJobNum'))
 delayTimeList = eval(config.get('GAS-MARL setting', 'delayTimeList'))
 
-turbinePowerNominal = int(config.get('general setting', 'turbinePowerNominal'))
-numberPv = int(config.get('general setting', 'numberPv'))
+turbinePowerNominal = float(config.get('general setting', 'turbinePowerNominal'))
+numberPv = float(config.get('general setting', 'numberPv'))
 processor_per_machine = int(config.get('general setting', 'processor_per_machine'))
-idlePower = int(config.get('general setting', 'idlePower'))
-MAX_perProcPower = int(config.get('general setting', 'MAX_perProcPower'))
+idlePower = float(config.get('general setting', 'idlePower'))
+MAX_perProcPower = float(config.get('general setting', 'MAX_perProcPower'))
 
 
 MAX_POWER = 19000
