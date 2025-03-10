@@ -130,7 +130,7 @@ class HPCEnv(gym.Env):
 
         job_sequence_size = JOB_SEQUENCE_SIZE
 
-        self.start = self.np_random.randint(job_sequence_size, (self.loads.size() - job_sequence_size - 1))
+        self.start = self.np_random.integers(job_sequence_size, (self.loads.size() - job_sequence_size - 1))
 
         self.start_idx_last_reset = self.start
         self.num_job_in_batch = job_sequence_size
